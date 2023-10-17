@@ -1,6 +1,7 @@
 const express = require("express");
 const port = process.env.PORT || 3000;
 const cors = require("cors");
+const cars = require("./routers/cars/cars");
 const { MongoClient } = require("mongodb");
 const getAllCars = require("./middlewares/cars/getAllCars");
 const getSingleCar = require("./middlewares/cars/getSingleCar");
@@ -28,40 +29,13 @@ const run = async () => {
       console.log("Cannot establish database connection: ", err);
    }
 
-   // Assign database name and collections name
-   const database = client.db("CarCraft");
-   const cars = database.collection("cars");
-   const brands = database.collection("brands");
-
    // Root router
    app.get("/", (req, res) => {
       res.send("Server is running");
    });
 
-   // Get all cars
-   app.get("/cars", (req, res) => {
-      getAllCars(req, res, cars);
-   });
-
-   // Get single
-   app.get("/cars/:id", (req, res) => {
-      getSingleCar(req, res, cars);
-   });
-
-   // Add new car
-   app.post("/cars", (req, res) => {
-      addNewCar(req, res, cars);
-   });
-
-   // Update car details
-   app.put("/cars/:id", (req, res) => {
-      updateCar(req, res, cars);
-   });
-
-   // Delete car
-   app.delete("/cars/:id", (req, res) => {
-      deleteCar(req, res, cars);
-   });
+   // Application routes
+   app.use("/cars", cars(client));
 };
 run();
 
