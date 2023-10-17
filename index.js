@@ -8,6 +8,7 @@ const getSingleCar = require("./middlewares/cars/getSingleCar");
 const addNewCar = require("./middlewares/cars/addNewCar");
 const updateCar = require("./middlewares/cars/updateCar");
 const deleteCar = require("./middlewares/cars/deleteSingleCar");
+const cart = require("./routers/cart/cart");
 require("dotenv").config();
 
 // Initialize app
@@ -36,6 +37,7 @@ const run = async () => {
 
    // Application routes
    app.use("/cars", cars(client));
+   app.use("/cart", cart(client));
 };
 run();
 
