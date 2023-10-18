@@ -1,6 +1,6 @@
 const { ObjectId } = require("mongodb");
 
-const deleteCar = async (req, res, collection) => {
+const deleteSingleItem = async (req, res, collection) => {
    const userId = req.params.id;
    const query = { _id: new ObjectId(userId) };
    const result = await collection.deleteOne(query);
@@ -11,4 +11,4 @@ const deleteCar = async (req, res, collection) => {
    }
 };
 
-module.exports = deleteCar;
+module.exports = deleteSingleItem;

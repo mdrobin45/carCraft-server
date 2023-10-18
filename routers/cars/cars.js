@@ -1,9 +1,10 @@
 const express = require("express");
-const getAllCars = require("../../middlewares/cars/getAllCars");
-const addNewCar = require("../../middlewares/cars/addNewCar");
-const getSingleCar = require("../../middlewares/cars/getSingleCar");
-const updateCar = require("../../middlewares/cars/updateCar");
-const deleteCar = require("../../middlewares/cars/deleteSingleCar");
+const getSingleItem = require("../../middlewares/cars/getSingleItem");
+const addNewItem = require("../../middlewares/cars/addNewItem");
+const updateItem = require("../../middlewares/cars/updateItem");
+const deleteSingleItem = require("../../middlewares/cars/deleteSingleItem");
+const getAllItems = require("../../middlewares/cars/getAllItems");
+
 const router = express.Router();
 
 const cars = (client) => {
@@ -12,27 +13,27 @@ const cars = (client) => {
 
    // Get all cars
    router.get("/", (req, res) => {
-      getAllCars(req, res, cars);
+      getAllItems(req, res, cars);
    });
 
    // Get single
    router.get("/:id", (req, res) => {
-      getSingleCar(req, res, cars);
+      getSingleItem(req, res, cars);
    });
 
    // Add new car
    router.post("/", (req, res) => {
-      addNewCar(req, res, cars);
+      addNewItem(req, res, cars);
    });
 
    // Update car details
    router.put("/:id", (req, res) => {
-      updateCar(req, res, cars);
+      updateItem(req, res, cars);
    });
 
    // Delete car
    router.delete("/:id", (req, res) => {
-      deleteCar(req, res, cars);
+      deleteSingleItem(req, res, cars);
    });
 
    return router;

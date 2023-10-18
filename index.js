@@ -3,12 +3,8 @@ const port = process.env.PORT || 3000;
 const cors = require("cors");
 const cars = require("./routers/cars/cars");
 const { MongoClient } = require("mongodb");
-const getAllCars = require("./middlewares/cars/getAllCars");
-const getSingleCar = require("./middlewares/cars/getSingleCar");
-const addNewCar = require("./middlewares/cars/addNewCar");
-const updateCar = require("./middlewares/cars/updateCar");
-const deleteCar = require("./middlewares/cars/deleteSingleCar");
 const cart = require("./routers/cart/cart");
+const brands = require("./routers/brands/brands");
 require("dotenv").config();
 
 // Initialize app
@@ -18,9 +14,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const local =
+   "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.3";
+
 // Database connection
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ywsqr.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(mongoURI);
+const client = new MongoClient(local);
 
 const run = async () => {
    try {
@@ -38,6 +37,7 @@ const run = async () => {
    // Application routes
    app.use("/cars", cars(client));
    app.use("/cart", cart(client));
+   app.use("/brands", brands(client));
 };
 run();
 
