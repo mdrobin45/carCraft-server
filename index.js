@@ -5,6 +5,7 @@ const cars = require("./routers/cars/cars");
 const { MongoClient } = require("mongodb");
 const cart = require("./routers/cart/cart");
 const brands = require("./routers/brands/brands");
+const advertisement = require("./routers/advertisement/advertisement");
 require("dotenv").config();
 
 // Initialize app
@@ -19,7 +20,7 @@ const local =
 
 // Database connection
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ywsqr.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(local);
+const client = new MongoClient(mongoURI);
 
 const run = async () => {
    try {
@@ -38,6 +39,7 @@ const run = async () => {
    app.use("/cars", cars(client));
    app.use("/cart", cart(client));
    app.use("/brands", brands(client));
+   app.use("/advertisement", advertisement(client));
 };
 run();
 
