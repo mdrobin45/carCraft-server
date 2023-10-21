@@ -15,31 +15,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const local =
-   "mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.10.3";
-
 // Database connection
 const mongoURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ywsqr.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(mongoURI);
 
 const run = async () => {
    try {
-      await client.connect();
-      console.log("Database connection successful");
+      // Root router
+      app.get("/", (req, res) => {
+         res.send("Server is running");
+      });
+
+      // Application routes
+      app.use("/cars", cars(client));
+      app.use("/cart", cart(client));
+      app.use("/brands", brands(client));
+      app.use("/advertisement", advertisement(client));
    } catch (err) {
-      console.log("Cannot establish database connection: ", err);
+      console.log(err);
    }
-
-   // Root router
-   app.get("/", (req, res) => {
-      res.send("Server is running");
-   });
-
-   // Application routes
-   app.use("/cars", cars(client));
-   app.use("/cart", cart(client));
-   app.use("/brands", brands(client));
-   app.use("/advertisement", advertisement(client));
 };
 run();
 
